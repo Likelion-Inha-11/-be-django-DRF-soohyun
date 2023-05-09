@@ -1,7 +1,7 @@
 <h1>로그인하세요.</h1>
 <form method="post" action="{% url 'MBTIAPP:login' %}">
     {% csrf_token %}
-
+    {% include "MBTIAPP/form_errors.html" %}
     <label>ID</label>
     <input type="text" name="username" id="username">
     <label>PW</label>

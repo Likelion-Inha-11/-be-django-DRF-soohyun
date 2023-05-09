@@ -47,3 +47,13 @@ span {
 .details span{
     font-size: 20px;
 }
+
+.buttons {
+    color: rgb(153, 54, 210); 
+    background-color: bisque;
+    border: 2px solid black;
+    font-size: 20px;
+    display: inline-block;
+    padding: 5px 4px;
+    cursor: pointer;
+}

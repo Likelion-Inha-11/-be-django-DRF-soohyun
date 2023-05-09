@@ -2,6 +2,7 @@
 {% csrf_token %}
 <a href="{% url 'MBTIAPP:logout' %}">로그아웃</a>
 <a href="{% url 'MBTIAPP:mbtitest' %}">MBTI테스트 하기</a>
+<a href="{% url 'MBTIAPP:blog' %}">MBTI 게시판으로</a>
 {% endif %}
 
 {% if not user.is_authenticated %}

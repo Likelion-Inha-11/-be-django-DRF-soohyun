@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
-from MBTIAPP.forms import Signupform,MbtiForm
-from .forms import CommentForm
+from MBTIAPP.forms import Signupform,MbtiForm,CommentForm
 from .models import Post, Profile, Comment
 # from django.urls import reverse
 
@@ -79,7 +78,22 @@ def comment_delete(request, post_pk, comment_pk):
         comment = get_object_or_404(Comment, pk=comment_pk)
         if request.user == comment.commenter:
             comment.delete()
-    return redirect('MBTIAPP:detail', post_pk)    
+    return redirect('MBTIAPP:detail', post_pk) 
+
+def comment_edit(request, post_pk, comment_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.method == 'POST':
+            comment.content=request.POST['content']
+            comment.save()  
+            return redirect('MBTIAPP:detail', post_pk)
+    else:
+        context = {
+            'comment' : comment,
+            'post' : post,
+            'comment_content' : comment.content
+        }
+        return render(request, 'MBTIAPP/comment_edit.html', context)   
 
 def mbtitest(request):
     form = MbtiForm()
@@ -113,17 +127,12 @@ def signup(request):
     if request.method == "POST":
         form = Signupform(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('MBTIAPP:main')
-        # else:
-        #     if 'password2' in form.errors:    
-        #         error_message = form.errors['password2']
-        #     else:
-        #         error_message = form.errors['non_field_errors']
+                form.save()
+                username = form.cleaned_data.get('username')
+                raw_password = form.cleaned_data.get('password1')
+                user = authenticate(username=username, password=raw_password)
+                login(request, user)
+                return redirect('MBTIAPP:main')
     else:
         form = Signupform()
     return render(request, 'MBTIAPP/signup.html', {'form' : form})

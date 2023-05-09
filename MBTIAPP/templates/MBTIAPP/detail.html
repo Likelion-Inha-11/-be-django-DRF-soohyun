@@ -25,8 +25,10 @@
         {% if user == comment.commenter %}
             <form action="{% url 'MBTIAPP:comment_delete' post.pk comment.pk %}">
             {% csrf_token %}
-            <br><input type="submit" value="댓글삭제">
+            <br><div class="buttons"><input type="submit" value="댓글삭제">
+            </div>
             </form>
+            <a href="{% url 'MBTIAPP:comment_edit' post.pk comment.pk %}">수정하기</a>
         {% endif %}
     </li>
     {% empty %}
@@ -38,7 +40,9 @@
     <form action="{% url 'MBTIAPP:comment_create' pk=post.pk %}" method="POST">
         {% csrf_token %}
         {{ form.content }}
+        <div class="buttons">
         <input type="submit" value ="댓글작성">
+        </div>
     </form>
 {% else %}
     <a href="{% url 'MBTIAPP:login' %}">댓글을 작성하고 싶으면 로그인하시오.</a>

@@ -14,15 +14,14 @@ class Signupform(UserCreationForm):
         user = super(Signupform, self).save(commit=False)
         user.save()
 
-
-    # def clean_password2(self):
-    #     password1 = self.cleaned_data.get('password1')
-    #     password2 = self.cleaned_data.get('password2')
-
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     password1 = cleaned_data.get("password1")
+    #     password2 = cleaned_data.get("password2")
     #     if password1 and password2 and password1 != password2:
-    #         raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
-        
-    #     return password2
+    #         self.add_error('password2', '비밀번호가 일치하지 않습니다.')
+
+
 
 
 class MbtiForm(forms.Form):
@@ -35,4 +34,4 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        exclude = ('post','commenter',)
+        exclude = ('post','commenter')

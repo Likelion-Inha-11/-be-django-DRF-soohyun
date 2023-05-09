@@ -1,0 +1,7 @@
+<h2>comment edit</h2>
+<form action="{% url 'MBTIAPP:comment_edit' post.pk comment.pk %}" method="POST">
+    {% csrf_token %}
+    <h3>content</h3><br>
+    <textarea name="content" id="content" cols="40" rows="20">{{ comment.content }}</textarea><br>
+    <input type="submit" value="수정하기">
+</form>
