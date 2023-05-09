@@ -2,7 +2,7 @@
 ***
 # ❗️ERD
 
-![ERD](/MBTI_likelion/MBTI_likelion/static/ERD_MBTI.png)
+![ERD](./MBTI_likelion/MBTI_likelion/static/ERD_MBTI.png)
 [link][https://www.erdcloud.com/d/g3qNePNiy2dTTPBRq]
 ***
 # ❗️코드 별 기능
