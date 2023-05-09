@@ -10,19 +10,6 @@ class Signupform(UserCreationForm):
         model = Profile
         fields = ("username", "password1" , "password2", "nickname")
 
-    def save(self):
-        user = super(Signupform, self).save(commit=False)
-        user.save()
-
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     password1 = cleaned_data.get("password1")
-    #     password2 = cleaned_data.get("password2")
-    #     if password1 and password2 and password1 != password2:
-    #         self.add_error('password2', '비밀번호가 일치하지 않습니다.')
-
-
-
 
 class MbtiForm(forms.Form):
     EI = forms.ChoiceField(choices=[('E','네'),('I','아니오')], widget=forms.RadioSelect)
