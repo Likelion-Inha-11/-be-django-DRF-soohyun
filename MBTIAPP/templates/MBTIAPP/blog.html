@@ -1,0 +1,7 @@
+<h2>mbti 게시판</h2>
+<a href="{% url 'MBTIAPP:new' %}">새 글쓰기</a>
+{% for post in posts %}
+    <a href="{% url 'MBTIAPP:detail' post.pk %}">{{post.title}}</a>
+    <p>{{post.poster.nickname}}</p>
+
+{% endfor %}

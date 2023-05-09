@@ -1,0 +1,11 @@
+<h1>새글 작성페이지</h1>
+
+<form action="{% url 'MBTIAPP:postcreate' %}" method="POST">
+    {% csrf_token %}
+    <label for="title">제목</label><br>
+    <input type="text" name="title", id="title"><br>
+    <label for="content">글 내용</label><br>
+    <textarea name="content" id="content" cols="40" rows="20"></textarea><br>
+    <input type="submit" value="작성하기">
+
+</form>

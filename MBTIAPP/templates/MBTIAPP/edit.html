@@ -1,0 +1,9 @@
+<h2>edit</h2>
+<form action="{% url 'MBTIAPP:edit' post.pk %}" method="POST">
+    {% csrf_token %}
+    <h3>Title</h3><br>
+    <input type="text" name="title" value="{{ post.title }}"><br>
+    <h3>content</h3><br>
+    <textarea name="content" id="content" cols="40" rows="20">{{ post.content }}</textarea><br>
+    <input type="submit" value="수정하기">
+</form>

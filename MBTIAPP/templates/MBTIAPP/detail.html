@@ -1,0 +1,36 @@
+<h1>디테일</h1>
+
+    {{ post.title }}
+    {{ post.content }}
+    <a href="{% url 'MBTIAPP:edit' post.pk %}">수정하기</a>
+    <a href="{% url 'MBTIAPP:delete' post.pk %}">삭제하기</a>
+
+<h3>댓글들</h3>
+{% if comments %}
+<p>{{ comments|length }}개의 댓글이 있어요</p>
+{% endif %}
+<ul>
+    {% for comment in comments %}
+    <li>
+        {{ comment.content }} - {{ comment.commenter }}
+        {% if user == comment.commenter %}
+            <form action="{% url 'MBTIAPP:comment_delete' post.pk comment.pk %}">
+            {% csrf_token %}
+            <input type="submit" value="댓글삭제">
+            </form>
+        {% endif %}
+    </li>
+    {% empty %}
+        <p>No 댓글~</p>
+    {% endfor %}
+</ul>
+
+{% if request.user.is_authenticated %}
+    <form action="{% url 'MBTIAPP:comment_create' pk=post.pk %}" method="POST">
+        {% csrf_token %}
+        {{ form.content }}
+        <input type="submit" value ="댓글작성">
+    </form>
+{% else %}
+    <a href="{% url 'MBTIAPP:login' %}">댓글을 작성하고 싶으면 로그인하시오.</a>
+{% endif %}
