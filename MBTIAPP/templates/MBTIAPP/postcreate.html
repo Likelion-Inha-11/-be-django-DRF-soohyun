@@ -1,4 +1,8 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
 <h1>새글 작성페이지</h1>
+<a href="{% url 'MBTIAPP:blog' %}">게시판으로 돌아가기</a><br><br>
 
 <form action="{% url 'MBTIAPP:postcreate' %}" method="POST">
     {% csrf_token %}

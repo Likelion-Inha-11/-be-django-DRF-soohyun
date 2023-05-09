@@ -1,9 +1,18 @@
-<h1>디테일</h1>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-    {{ post.title }}
-    {{ post.content }}
-    <a href="{% url 'MBTIAPP:edit' post.pk %}">수정하기</a>
-    <a href="{% url 'MBTIAPP:delete' post.pk %}">삭제하기</a>
+<h1>디테일페이지</h1>
+    <div class="details">
+        <a href="{% url 'MBTIAPP:blog' %}">게시판으로 돌아가기</a><br>
+        <h2>제목</h2>
+        <p>{{ post.title }}</p>
+        <h2>내용</h2>
+        <p>{{ post.content }}</p>
+        <h2>작성자</h2>
+        <span>{{ post.poster }}({{ post.poster.user_mbti }})</span><br><br><br>
+        <a href="{% url 'MBTIAPP:edit' post.pk %}">수정하기</a>
+        <a href="{% url 'MBTIAPP:delete' post.pk %}">삭제하기</a>
+    </div>
 
 <h3>댓글들</h3>
 {% if comments %}
@@ -12,11 +21,11 @@
 <ul>
     {% for comment in comments %}
     <li>
-        {{ comment.content }} - {{ comment.commenter }}
+        {{ comment.content }} - {{ comment.commenter }}<span>({{ comment.commenter.user_mbti }})</span>
         {% if user == comment.commenter %}
             <form action="{% url 'MBTIAPP:comment_delete' post.pk comment.pk %}">
             {% csrf_token %}
-            <input type="submit" value="댓글삭제">
+            <br><input type="submit" value="댓글삭제">
             </form>
         {% endif %}
     </li>

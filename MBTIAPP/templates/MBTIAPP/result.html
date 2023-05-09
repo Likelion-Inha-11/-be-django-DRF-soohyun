@@ -1,3 +1,5 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 <h1>결과창임</h1>
 {{ mymbti }}
 <a href="{% url 'MBTIAPP:blog' %}">mbti 게시판으로 이동하기</a>

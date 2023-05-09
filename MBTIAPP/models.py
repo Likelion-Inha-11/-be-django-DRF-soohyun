@@ -13,16 +13,13 @@ class Profile(AbstractUser):
     nickname = models.CharField(max_length=15);
     user_mbti = models.CharField(max_length=4);
 
-    
-
     def __str__(self):
-        return self.username
+        return self.nickname
     
 class Post(models.Model):
     title =models.CharField(max_length=50)
-    poster = models.ForeignKey(Profile, on_delete=models.CASCADE ,default=1)
+    poster = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE ,default=1)
     content = models.TextField()
-    likes = models.ManyToManyField(Profile, related_name='Likes', blank=True)
     
     def __str__(self):
         return self.title

@@ -52,6 +52,7 @@ def postcreate(request):
         post = Post()
         post.title=request.POST['title']
         post.content=request.POST['content']
+        post.poster = request.user
         post.save()     
     return redirect('MBTIAPP:blog')
 
