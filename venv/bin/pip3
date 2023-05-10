@@ -1,4 +1,4 @@
-#!/Users/soohyun/Desktop/mbti_likelion/MBTI_likelion/venv/bin/python3
+#!/Users/soohyun/Desktop/mbtilikelion/be-django-training-jinuk-soohyun/venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys

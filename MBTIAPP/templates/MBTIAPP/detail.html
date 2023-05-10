@@ -10,8 +10,10 @@
         <p>{{ post.content }}</p>
         <h2>작성자</h2>
         <span>{{ post.poster }}({{ post.poster.user_mbti }})</span><br><br><br>
+        {% if user == post.poster %}
         <a href="{% url 'MBTIAPP:edit' post.pk %}">수정하기</a>
         <a href="{% url 'MBTIAPP:delete' post.pk %}">삭제하기</a>
+        {% endif %}
     </div>
 
 <h3>댓글들</h3>
