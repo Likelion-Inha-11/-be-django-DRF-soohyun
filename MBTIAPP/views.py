@@ -1,8 +1,12 @@
+from rest_framework import generics,mixins
+from rest_framework.response import Response
+from .serializers import PostSerializer, CommentSerializer,PostBaseModelSerializer
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from MBTIAPP.forms import Signupform,MbtiForm,CommentForm
-from .models import Post, Profile, Comment
+from .models import Post, Profile, Comment, Category
+from rest_framework.decorators import api_view
 # from django.urls import reverse
 
 
@@ -16,7 +20,7 @@ def detail(request, pk):
     comments = post_detail.comment_set.all()
     context = {
         'post' : post_detail,
-        'comments' : comments
+        'comments' : comments,
     }
     return render(request, 'MBTIAPP/detail.html', context)
 
@@ -31,20 +35,54 @@ def edit(request, pk):
         context = {
             'post' : post
         }
-        return render(request, 'MBTIAPP/edit.html', context)
+        return render(request, 'MBTIAPP/edit.html', context), render(request, 'MBTIAPP/blog.html', context)
     
-def delete(request, pk):
+def delete(pk):
     post = Post.objects.get(pk=pk)
     post.delete()
     return redirect('MBTIAPP:blog')
 
-def blog(request):
-    posts = Post.objects.all()
-    context = {'posts':posts}
-    return render(request, 'MBTIAPP/blog.html', context)
+
+class PostListGenericAPIView(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostBaseModelSerializer
+    template_name= 'MBTIAPP/blog.html'
+
+
+
+@api_view(['GET'])
+def category(request, category_id):
+    posts = Post.objects.filter(category=category_id)
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def my_posts(requsest):
+    user_id=requsest.user.id
+    posts = Post.objects.filter(poster=user_id)
+    serializer = PostSerializer(posts, many=True)
+    serialized_data= serializer.data
+    return Response(serialized_data)
+
+@api_view(['GET'])
+def user_post(request, poster_id):
+    posts =  Post.objects.filter(poster = poster_id)
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_my_comments(request):
+    user_id = request.user.id
+    comments = Comment.objects.filter(poster = user_id)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
 
 def new(request):
-    return render(request, 'MBTIAPP/postcreate.html')
+    categories = Category.objects.all()
+    context = {
+        'categories' : categories
+    }
+    return render(request, 'MBTIAPP/postcreate.html', context)
 
 def postcreate(request):
     if(request.method == 'POST'):
@@ -53,7 +91,11 @@ def postcreate(request):
         post.content=request.POST['content']
         post.poster = request.user
         post.save()     
+        categories = request.POST.getlist('category')
+        if categories: 
+            post.categories.set(categories)
     return redirect('MBTIAPP:blog')
+
 
 def comment_create(request, pk):
     if request.user.is_authenticated:

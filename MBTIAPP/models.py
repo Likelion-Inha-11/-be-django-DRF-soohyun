@@ -16,10 +16,20 @@ class Profile(AbstractUser):
     def __str__(self):
         return self.nickname
     
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+    
 class Post(models.Model):
     title =models.CharField(max_length=50)
     poster = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE ,default=1)
     content = models.TextField()
+    categories = models.ManyToManyField(Category)
+
+
     
     def __str__(self):
         return self.title

@@ -11,7 +11,10 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('mbtitest/', views.mbtitest, name='mbtitest'),
     path('result/', views.result, name='result'),
-    path('blog/', views.blog, name='blog'),
+    path('blog/',views.PostListGenericAPIView.as_view(), name="blog"),
+    path('category/<int:category_id>/', views.category, name='category'),
+    path('my_posts/', views.my_posts, name='my_posts'),
+    path('user_post/<int:poster_id>/', views.user_post, name='user_post'),
     path('new/', views.new, name='new'),
     path('postcreate/', views.postcreate, name='postcreate'),
     path('<int:pk>/', views.detail, name='detail'),
@@ -20,5 +23,5 @@ urlpatterns = [
     path('<int:pk>/comment/', views.comment_create, name='comment_create'),
     path('<int:post_pk>/comment/<int:comment_pk>/delete/', views.comment_delete, name='comment_delete'),
     path('<int:post_pk>/comment/<int:comment_pk>/edit/', views.comment_edit, name='comment_edit'),
-    
 ]
+    

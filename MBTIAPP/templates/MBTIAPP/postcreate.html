@@ -10,6 +10,11 @@
     <input type="text" name="title", id="title"><br>
     <label for="content">글 내용</label><br>
     <textarea name="content" id="content" cols="40" rows="20"></textarea><br>
-    <input type="submit" value="작성하기">
-
+    <label for="category">카테고리</label>
+    <select name="category" multiple>
+    {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+    </select>
+    <button type="submit">작성</button>
 </form>
