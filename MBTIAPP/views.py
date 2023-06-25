@@ -1,6 +1,5 @@
-from rest_framework import generics,mixins
 from rest_framework.response import Response
-from .serializers import PostSerializer, CommentSerializer,PostBaseModelSerializer
+from .serializers import PostSerializer, CommentSerializer
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
@@ -42,17 +41,19 @@ def delete(pk):
     post.delete()
     return redirect('MBTIAPP:blog')
 
-
-class PostListGenericAPIView(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostBaseModelSerializer
-    template_name= 'MBTIAPP/blog.html'
-
+def blog(request):
+    posts = Post.objects.all()
+    category = Category.objects.all()
+    context = {
+        'posts':posts,
+        'category':category
+        }
+    return render(request, 'MBTIAPP/blog.html', context)
 
 
 @api_view(['GET'])
 def category(request, category_id):
-    posts = Post.objects.filter(category=category_id)
+    posts = Post.objects.filter(categories=category_id)
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
 
